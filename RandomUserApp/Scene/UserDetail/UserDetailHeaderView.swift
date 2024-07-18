@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol UserDetailHeaderViewDelegate {
+    func tapIcon(user: User)
+}
+
 final class UserDetailHeaderView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -24,6 +28,8 @@ final class UserDetailHeaderView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: size),
             imageView.widthAnchor.constraint(equalToConstant: size)
         ])
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapIcon)))
         return imageView
     }()
     
@@ -75,10 +81,17 @@ final class UserDetailHeaderView: UIView {
         mainStackView.addArrangedSubview(userFullNameLabel)
     }
     
+    var delegate: UserDetailHeaderViewDelegate?
+    
+    private var user: User!
     func configure(user: User) {
+        self.user = user
         userIconView.kf.setImage(with: user.picture.large.url)
         userFullNameLabel.text = user.name.fullName        
         genderIconView.image = user.gender.image
     }
 
+    @objc func tapIcon() {
+        delegate?.tapIcon(user: user)
+    }
 }

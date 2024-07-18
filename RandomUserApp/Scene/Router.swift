@@ -29,6 +29,14 @@ final class Router {
         next.configure(user: user)
         from.show(next: next)
     }
+    
+    func showAlert(user: User, from: UIViewController) {
+        let alert = UIAlertController(title: user.name.fullName, message: "Hello", preferredStyle: .alert)
+        let close = UIAlertAction(title: "閉じる", style: .cancel)
+        alert.addAction(close)
+        
+        from.present(alert, animated: true)
+    }
 }
 
 //本当はUIViewController+.swiftみたいにファイルを分けよう

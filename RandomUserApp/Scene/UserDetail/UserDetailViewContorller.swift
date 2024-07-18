@@ -8,14 +8,11 @@
 import UIKit
 import MapKit
 
-/*
- 地図表示は
- */
-
 final class UserDetailViewContorller: UIViewController {
 
-    private var userDetailHeaderView: UserDetailHeaderView = {
+    private lazy var userDetailHeaderView: UserDetailHeaderView = {
         let userDetailHeaderView = UserDetailHeaderView()
+        userDetailHeaderView.delegate = self
         return userDetailHeaderView
     }()
     
@@ -80,6 +77,12 @@ extension UserDetailViewContorller: MKMapViewDelegate {
         }
 
         return annotationView
+    }
+}
+
+extension UserDetailViewContorller: UserDetailHeaderViewDelegate {
+    func tapIcon(user: User) {
+        Router.shared.showAlert(user: user, from: self)
     }
 }
 
